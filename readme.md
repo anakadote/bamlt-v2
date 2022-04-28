@@ -16,5 +16,5 @@ There is one public method available, **send(array $input)**
         'firstName' => 'Taylor',
         'lastName' => 'Collins',
         'postalCode' => 15243,
-        'phone' => '5551212',
+        'phone' => '4125551212',
     ]);
