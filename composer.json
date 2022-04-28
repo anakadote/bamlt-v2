@@ -1,0 +1,30 @@
+{
+    "name": "anakadote/bamlt-v2",
+    "description": "Send a lead to the default BAM LeadTracker v2 web service.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Collins",
+            "email": "taylor@endif.io"
+        }
+    ],
+    "keywords": [
+	    "laravel"
+    ],
+    "require": {
+        "php": ">=7.4.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Anakadote\\BAMLTV2\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Anakadote\\BAMLTV2\\ServiceProvider"
+            ]
+        }
+    }
+}
