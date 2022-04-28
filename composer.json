@@ -1,6 +1,6 @@
 {
     "name": "anakadote/bamlt-v2",
-    "description": "Send a lead to the default BAM LeadTracker v2 web service.",
+    "description": "Send a lead to the BAM LeadTracker v2 API.",
     "license": "MIT",
     "authors": [
         {

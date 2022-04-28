@@ -3,7 +3,7 @@
 namespace Anakadote\BAMLTV2;
 
 /**
- * Send a lead to the default BAM LeadTracker v2 web service.
+ * Send a lead to the BAM LeadTracker v2 API.
  */
 class BAMLTV2
 {

@@ -1,6 +1,6 @@
 # BAM LeadTracker v2 Service Class
 
-Send a lead to the default BAM LeadTracker v2 web service.
+Send a lead to the BAM LeadTracker v2 API.
 
 Begin by installing this package through Composer via the terminal.
 
