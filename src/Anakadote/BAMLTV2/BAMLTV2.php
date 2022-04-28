@@ -15,7 +15,7 @@ class BAMLTV2
     private $allowedInputs = [
         'firstName', 'lastName', 'email', 'phone', 'address', 'address2', 'city', 'state', 'postalCode', 'country', 
         'businessName', 'businessAddress', 'businessAddress2', 'businessCity', 'businessState', 'businessPostalCode', 'businessCountry', 
-        'comments', 'leadSource','mediaType',
+        'comments', 'leadSource', 'leadGenerator', 'mediaType',
     ];
 
     /**
@@ -39,9 +39,6 @@ class BAMLTV2
     public function __construct($apiKey)
     {
         $this->apiKey = $apiKey;
-
-        // Fill data array with allowed input keys
-        $this->data = array_fill_keys($this->allowedInputs, null);
     }
 
     /**
@@ -64,8 +61,16 @@ class BAMLTV2
             $input['postalCode'] = $input['zip'];
         }
 
-        // Loop through the supplied data and take allowed values.
+        // Allow a "delivery_source" input.
+        if (! empty($input['delivery_source'])) {
+            $input['leadSource'] = $input['delivery_source'];
+        }
+
+        // Loop through the supplied data to convert all keys to 
+        // and camelCase, and take allowed values.
         foreach ($input as $key => $value) {
+            $key = $this->snakeCaseToCamelCase($key);
+
             if (in_array($key, $this->allowedInputs)) {
                 $this->setData($key, $value);
             }
@@ -127,5 +132,19 @@ class BAMLTV2
     private function setData($key, $value)
     {
         $this->data[ $key ] = $value;
+    }
+
+    /**
+     * Convert a snake_case string to camelCase.
+     * 
+     * @param  string  $string
+     * @return string
+     */
+    private function snakeCaseToCamelCase($string) 
+    {
+        $str = str_replace('_', '', ucwords($string, '_'));
+        $str = lcfirst($str);
+
+        return $str;
     }
 }
