@@ -13,7 +13,7 @@ class BAMLTV2
      * @var array
      */
     private $allowedInputs = [
-        'name', 'firstName', 'lastName', 'email', 'phone', 'address', 'address2', 'city', 'state', 'postalCode', 'country', 
+        'firstName', 'lastName', 'email', 'phone', 'address', 'address2', 'city', 'state', 'postalCode', 'country', 
         'businessName', 'businessAddress', 'businessAddress2', 'businessCity', 'businessState', 'businessPostalCode', 'businessCountry', 
         'comments', 'leadSource','mediaType',
     ];
@@ -52,14 +52,19 @@ class BAMLTV2
      */
     public function send(array $input)
     {
-        // Allow a "name" input
-        if (isset($input['name'])) {
+        // Allow a "name" input.
+        if (! empty($input['name'])) {
             $name = explode(' ', preg_replace('/\s+/', ' ', (trim($input['name']))));
             $input['firstName'] = isset($name[0]) ? $name[0] : '';
             $input['lastName']  = count($name) > 1 ? array_pop($name) : '';
         }
 
-        // Loop through supplied data and take allowed values
+        // Allow a "zip" input.
+        if (! empty($input['zip'])) {
+            $input['postalCode'] = $input['zip'];
+        }
+
+        // Loop through the supplied data and take allowed values.
         foreach ($input as $key => $value) {
             if (in_array($key, $this->allowedInputs)) {
                 $this->setData($key, $value);
@@ -84,6 +89,8 @@ class BAMLTV2
             $payload[ $key ] = $value;
         }
 
+        $payload = array_filter($payload);
+
         $ch = curl_init('https://bamlt.com/api/lead');
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
           'Authorization: Bearer ' . $this->apiKey,
@@ -91,13 +98,20 @@ class BAMLTV2
           'Content-Type: application/json',
         ]);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if (! empty($output['uuid'])) {
-            return $output['uuid'];
+        if ($httpCode == 201) {
+            $response = json_decode($output, true);
+
+            if (! empty($response['uuid'])) {
+                return $response['uuid'];
+            }
+
+            return true;
         }
 
         return false;
