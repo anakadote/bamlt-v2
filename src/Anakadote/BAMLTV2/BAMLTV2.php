@@ -53,7 +53,7 @@ class BAMLTV2
         if (! empty($input['name'])) {
             $name = explode(' ', preg_replace('/\s+/', ' ', (trim($input['name']))));
             $input['firstName'] = isset($name[0]) ? $name[0] : '';
-            $input['lastName']  = count($name) > 1 ? array_pop($name) : '';
+            $input['lastName']  = count($name) > 1 ? array_pop($name) : 'Unknown';
         }
 
         // Allow a "zip" input.
