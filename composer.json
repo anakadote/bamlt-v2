@@ -23,7 +23,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Anakadote\\BAMLTV2\\ServiceProvider"
+                "Anakadote\\BAMLTV2\\BAMLTV2ServiceProvider"
             ]
         }
     }
