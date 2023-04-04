@@ -10,7 +10,9 @@ Begin by installing this package through Composer via the terminal.
 ## Usage
 
 There is one public method available, **send(array $input)**
-    
+
+    use Anakadote\BAMLTV2\BAMLTV2;
+
     $bamlt = new BAMLTV2(BAMLT_API_KEY);
     $bamlt->send([
         'firstName' => 'Taylor',
